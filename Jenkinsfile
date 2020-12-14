@@ -2,7 +2,6 @@ pipeline {
     agent {
     label 'jenslave'
         }
-    triggers { pollSCM('H/3 * * * *') }
     tools {
           maven "maven"
     }
