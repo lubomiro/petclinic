@@ -6,20 +6,16 @@ pipeline {
           maven "maven"
     }
     stages {
-        stage('Git checkout') {
+        stage('Build') {
             steps {
                 checkout([$class: 'GitSCM', branches: [[name: '*/main']],
                  doGenerateSubmoduleConfigurations: false, 
                  extensions: [], 
                  submoduleCfg: [], 
                  userRemoteConfigs: [[url: 'https://github.com/lubomiro/petclinic.git']]])
+                sh "mvn -Dmaven.test.failure.ignore=true clean package"
              }
         }
-        stage('Build') {
-            steps {
-                sh "mvn -Dmaven.test.failure.ignore=true clean package"
-                }
-            }
         stage('Test') {
             steps {
                 junit '**/target/surefire-reports/TEST-*.xml'
