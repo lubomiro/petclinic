@@ -2,19 +2,13 @@ pipeline {
     agent {
     label 'jenslave'
         }
-    triggers { pollSCM('H/3 * * * *') }
     tools {
           maven "maven"
     }
     stages {
         stage('Build') {
             steps {
-                checkout([$class: 'GitSCM', branches: [[name: '*/main']],
-                 doGenerateSubmoduleConfigurations: false, 
-                 extensions: [], 
-                 submoduleCfg: [], 
-                 userRemoteConfigs: [[url: 'https://github.com/lubomiro/petclinic.git']]])
-                sh "mvn -Dmaven.test.failure.ignore=true clean package"
+               sh "mvn -Dmaven.test.failure.ignore=true clean package"
             }
         }
         stage('Test') {
