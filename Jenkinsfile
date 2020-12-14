@@ -5,6 +5,10 @@ pipeline {
     tools {
           maven "maven"
     }
+    environment {
+        COMMITTER = "Liubomir"
+        MAIL = "lubomiro@gmail.com"
+    }
     stages {
         stage('Build') {
             steps {
@@ -15,6 +19,12 @@ pipeline {
                  userRemoteConfigs: [[url: 'https://github.com/lubomiro/petclinic.git']]])
                 sh "mvn -Dmaven.test.failure.ignore=true clean package"
              }
+            post{
+                always{
+                    echo "Name of the committer ${env.COMMITTER}"
+                    echo "email ${env.MAIL}"
+                }
+             } 
         }
         stage('Test') {
             steps {
